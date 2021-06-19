@@ -38,7 +38,7 @@ namespace FitAppTime
             services.AddDbContext<FitAppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             
-            services.AddIdentity<FitAppUser, IdentityRole>()
+            services.AddIdentity<FitAppUser, IdentityRole>(options => { options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+/ "; options.User.RequireUniqueEmail = true; })
                 .AddEntityFrameworkStores<FitAppDbContext>();
 
             var jwtSettings = Configuration.GetSection("JwtSettings");
@@ -72,7 +72,7 @@ namespace FitAppTime
                 option.AddDefaultPolicy(builder =>
                 {
                     //The url below needs to come from the client you want to connect to.
-                    builder.WithOrigins("https://localhost:3000").AllowAnyHeader().AllowAnyMethod();
+                    builder.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod();
                 });
             });
         }

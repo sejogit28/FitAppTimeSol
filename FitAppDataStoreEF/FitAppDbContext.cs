@@ -17,8 +17,8 @@ namespace FitAppDataStoreEF
         public DbSet<FitAppUser> FitAppUser { get; set; }
         public DbSet<Exe> Exe { get; set; }
         public DbSet<LibExe> LibExe { get; set; }
-        public DbSet<ExeProgram> Program { get; set; }
-        public DbSet<Workout> Workout { get; set; }
+        public DbSet<ExeProgram> ExeProgram { get; set; }
+        public DbSet<ExeWorkout> ExeWorkout { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -30,7 +30,7 @@ namespace FitAppDataStoreEF
             .HasKey(o => new { o.ExeProgramExeProgramId, o.FitAppUserId });
 
             builder.Entity<ExeProgramWorkouts>()
-            .HasKey(o => new { o.ExeProgramExeProgramId, o.WorkoutWorkoutId });
+            .HasKey(o => new { o.ExeProgramExeProgramId, o.ExeWorkoutExeWorkoutId });
 
             builder.Entity<UserExeValues>()
             .HasKey(o => new { o.FitAppUserId, o.ExeExeId, o.EnteredValuesDate });

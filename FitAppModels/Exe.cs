@@ -30,7 +30,7 @@ namespace FitAppModels
         public string FitAppUserFirstName { get; set; }
         public FitAppUser FitAppUser { get; set; }
 
-        public int WorkoutWorkoutId { get; set; }
-        public Workout Workout { get; set; }
+        public int ExeWorkoutExeWorkoutId { get; set; }
+        public ExeWorkout ExeWorkout { get; set; }
     }
 }

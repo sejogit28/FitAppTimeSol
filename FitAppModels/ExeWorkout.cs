@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace FitAppModels
 {
-    public class Workout
+    public class ExeWorkout
     {
         [Key]
-        public string WorkoutId { get; set; }
+        public string ExeWorkoutId { get; set; }
         public string GoalNotes { get; set; }
 
 

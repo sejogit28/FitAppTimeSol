@@ -11,7 +11,7 @@ namespace FitAppModels
         public int ExeProgramExeProgramId { get; set; }
         public ExeProgram ExeProgram { get; set; }
 
-        public int WorkoutWorkoutId { get; set; }
-        public Workout Workout { get; set; }
+        public int ExeWorkoutExeWorkoutId { get; set; }
+        public ExeWorkout ExeWorkout { get; set; }
     }
 }

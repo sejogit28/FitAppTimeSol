@@ -34,26 +34,62 @@ namespace FitAppTimeApi.Controllers
         public async Task<IActionResult> RegisterExpUser([FromBody] UserRegistrationDto userRegistration)
         {
             if (userRegistration == null || !ModelState.IsValid)
-                return BadRequest();
-            var user = new FitAppUser 
-            {
-                UserName = userRegistration.Email, 
-                Email = userRegistration.Email,
-                FirstName = userRegistration.FirstName,
-                LastName = userRegistration.LastName,
-                DateAdded = DateTime.Now
-            };
-
-            var result = await _userManager.CreateAsync(user, userRegistration.Password);
-            if (!result.Succeeded)
-            {
-                var errors = result.Errors.Select(e => e.Description);
-                return BadRequest(new RegistrationResponseDto { Errors = errors });
+            { 
+                return BadRequest(new RegistrationResponseDto { IsSuccessfulRegistration = false, ResponseMessage = "Model State invalid"});          
             }
+            else 
+            {
+                var user = new FitAppUser 
+                {
+                    UserName = userRegistration.Email, 
+                    Email = userRegistration.Email,
+                    FirstName = userRegistration.FirstName,
+                    LastName = userRegistration.LastName,
+                    DateAdded = DateTime.Now
+                };
+                    
+                var result = await _userManager.CreateAsync(user, userRegistration.Password);
+                if (!result.Succeeded)
+                {
+                    var errors = result.Errors.Select(e => e.Description);
+                    return BadRequest(new RegistrationResponseDto 
+                    {
+                        IsSuccessfulRegistration = false, 
+                        Errors = errors });
+                }
+                else 
+                {
+                    /*Whatever role is entered as the second argument below needs to be created by you first
+                    in order for this to work*/
+                    if(userRegistration.FirstName == "Sean" && userRegistration.LastName == "Joseph")
+                    {
+                        await _userManager.AddToRoleAsync(user, "Administrator");
+                    }
+                    if (userRegistration.IsAthlete == true) 
+                    {
+                        await _userManager.AddToRoleAsync(user, "Athlete");
+                    }
+                    else 
+                    {
+                        await _userManager.AddToRoleAsync(user, "Coach");
 
-            //await _userManager.AddToRoleAsync(user, "User");
+                    }
 
-            return Ok($"{user.FirstName} {user.LastName} has been registered");//String interpolation is similar to Javascript
+
+                    return Ok(new RegistrationResponseDto 
+                    {
+                        IsSuccessfulRegistration = true,
+                        ResponseMessage = $"Success!! {user.FirstName} {user.LastName} has been registered. " 
+                    });
+
+                    /*The commented out below line(after this comment) was not sufficient because it didn't return 
+                     JSON. This lead to a successful operation(a 200 response) but an error after the fact in the 
+                     React client since it was expecting Json to be return*/
+
+                    //return Ok($"{user.FirstName} {user.LastName} has been registered");//String interpolation is similar-ish to Javascript              
+                }
+            
+            }
         }
 
       
@@ -61,9 +97,9 @@ namespace FitAppTimeApi.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] LoginAuthenticationDto loginDto)
         {
-            var user = await _userManager.FindByNameAsync(loginDto.Email);
+            var user = await _userManager.FindByEmailAsync(loginDto.Email);
             if (user == null || !await _userManager.CheckPasswordAsync(user, loginDto.Password))
-                return Unauthorized(new LoginResponseDto { IsLoginSuccessful = false, ErrMessage = "Invalid Authentication" });
+                return Unauthorized(new LoginResponseDto { IsLoginSuccessful = false, ResponseMessage = "Invalid Authentication" });
 
             else 
             {
@@ -71,10 +107,20 @@ namespace FitAppTimeApi.Controllers
                 var userClaims = await GetClaims(user);
                 var tokeOptions = GenerateTokenOptions(signingCredentials, userClaims);
                 var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
+                var roles = await _userManager.GetRolesAsync(user);
 
 
-
-                return Ok(new LoginResponseDto { IsLoginSuccessful = true, Token = tokenString });
+                return Ok(new LoginResponseDto 
+                { 
+                    IsLoginSuccessful = true,
+                    Token = tokenString,
+                    Id = user.Id,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Roles = roles,
+                    Email = user.Email,
+                    ResponseMessage = "User Credentials Verified!",
+                });
             }
             
         }

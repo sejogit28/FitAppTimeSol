@@ -9,5 +9,6 @@ namespace FitAppModels
     {
         public bool IsSuccessfulRegistration { get; set; }
         public IEnumerable<string> Errors { get; set; }
+        public string ResponseMessage { get; set; }
     }
 }

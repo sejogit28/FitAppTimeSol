@@ -4,14 +4,16 @@ using FitAppDataStoreEF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FitAppDataStoreEF.Migrations
 {
     [DbContext(typeof(FitAppDbContext))]
-    partial class FitAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210619025709_ChangedNameOfProgramTableToExeProgram")]
+    partial class ChangedNameOfProgramTableToExeProgram
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,12 +39,6 @@ namespace FitAppDataStoreEF.Migrations
 
                     b.Property<string>("ExeType")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ExeWorkoutExeWorkoutId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ExeWorkoutId")
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FitAppUserFirstName")
                         .HasColumnType("nvarchar(max)");
@@ -71,11 +67,17 @@ namespace FitAppDataStoreEF.Migrations
                     b.Property<int>("WorkoutGroupOrder")
                         .HasColumnType("int");
 
+                    b.Property<string>("WorkoutId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("WorkoutWorkoutId")
+                        .HasColumnType("int");
+
                     b.HasKey("ExeId");
 
-                    b.HasIndex("ExeWorkoutId");
-
                     b.HasIndex("FitAppUserId");
+
+                    b.HasIndex("WorkoutId");
 
                     b.ToTable("Exe");
                 });
@@ -111,38 +113,17 @@ namespace FitAppDataStoreEF.Migrations
                     b.Property<int>("ExeProgramExeProgramId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ExeWorkoutExeWorkoutId")
+                    b.Property<int>("WorkoutWorkoutId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ExeWorkoutId")
+                    b.Property<string>("WorkoutId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("ExeProgramExeProgramId", "ExeWorkoutExeWorkoutId");
+                    b.HasKey("ExeProgramExeProgramId", "WorkoutWorkoutId");
 
-                    b.HasIndex("ExeWorkoutId");
+                    b.HasIndex("WorkoutId");
 
                     b.ToTable("ExeProgramWorkouts");
-                });
-
-            modelBuilder.Entity("FitAppModels.ExeWorkout", b =>
-                {
-                    b.Property<string>("ExeWorkoutId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("FitAppUserFirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FitAppUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("GoalNotes")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ExeWorkoutId");
-
-                    b.HasIndex("FitAppUserId");
-
-                    b.ToTable("ExeWorkout");
                 });
 
             modelBuilder.Entity("FitAppModels.FitAppUser", b =>
@@ -311,6 +292,27 @@ namespace FitAppDataStoreEF.Migrations
                     b.ToTable("UserExeValues");
                 });
 
+            modelBuilder.Entity("FitAppModels.Workout", b =>
+                {
+                    b.Property<string>("WorkoutId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("FitAppUserFirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FitAppUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("GoalNotes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("WorkoutId");
+
+                    b.HasIndex("FitAppUserId");
+
+                    b.ToTable("Workout");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -340,29 +342,29 @@ namespace FitAppDataStoreEF.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ff7d49d3-3e2f-449d-bf09-7b03858dd721",
-                            ConcurrencyStamp = "6a4be15c-95f2-4da4-b28c-3e10c4f55d6f",
+                            Id = "89d21cc6-b5fb-4fee-8ab3-68970ffc8531",
+                            ConcurrencyStamp = "1c865cd4-4ea4-4dfc-862f-07bd0361b1dc",
                             Name = "Athlete",
                             NormalizedName = "ATHLETE"
                         },
                         new
                         {
-                            Id = "8ff485f4-01c9-4274-9410-14d534abee0b",
-                            ConcurrencyStamp = "f30a80f9-8cb1-4aa0-a33b-e0013994c613",
+                            Id = "217a4864-5e87-40eb-9805-2d5c0f128225",
+                            ConcurrencyStamp = "a530d4c8-c436-43af-abec-24cd15917321",
                             Name = "Coach",
                             NormalizedName = "COACH"
                         },
                         new
                         {
-                            Id = "f7f3cc2c-f5b4-4b61-9bc1-b01b71ac966e",
-                            ConcurrencyStamp = "72fe5fcc-2ec8-46d1-a8f6-e4e69d876e11",
+                            Id = "bb5d3085-5d4f-4344-9e52-206d6ed9d01a",
+                            ConcurrencyStamp = "b0660d8c-1d44-4567-a45d-89329bef4a8d",
                             Name = "Head Coach",
                             NormalizedName = "HEAD COACH"
                         },
                         new
                         {
-                            Id = "c9aba6a1-233c-4e01-b12b-0551a1120111",
-                            ConcurrencyStamp = "5badfa23-41ad-424c-8dee-629b98ab9736",
+                            Id = "69ca88e6-f72b-4f69-8e10-03c8da09f818",
+                            ConcurrencyStamp = "f117c1db-dde1-415d-b2c0-98313295a0bc",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -474,17 +476,17 @@ namespace FitAppDataStoreEF.Migrations
 
             modelBuilder.Entity("FitAppModels.Exe", b =>
                 {
-                    b.HasOne("FitAppModels.ExeWorkout", "ExeWorkout")
-                        .WithMany()
-                        .HasForeignKey("ExeWorkoutId");
-
                     b.HasOne("FitAppModels.FitAppUser", "FitAppUser")
                         .WithMany()
                         .HasForeignKey("FitAppUserId");
 
-                    b.Navigation("ExeWorkout");
+                    b.HasOne("FitAppModels.Workout", "Workout")
+                        .WithMany()
+                        .HasForeignKey("WorkoutId");
 
                     b.Navigation("FitAppUser");
+
+                    b.Navigation("Workout");
                 });
 
             modelBuilder.Entity("FitAppModels.ExeProgram", b =>
@@ -504,22 +506,13 @@ namespace FitAppDataStoreEF.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FitAppModels.ExeWorkout", "ExeWorkout")
+                    b.HasOne("FitAppModels.Workout", "Workout")
                         .WithMany("ExeProgramWorkouts")
-                        .HasForeignKey("ExeWorkoutId");
+                        .HasForeignKey("WorkoutId");
 
                     b.Navigation("ExeProgram");
 
-                    b.Navigation("ExeWorkout");
-                });
-
-            modelBuilder.Entity("FitAppModels.ExeWorkout", b =>
-                {
-                    b.HasOne("FitAppModels.FitAppUser", "FitAppUser")
-                        .WithMany()
-                        .HasForeignKey("FitAppUserId");
-
-                    b.Navigation("FitAppUser");
+                    b.Navigation("Workout");
                 });
 
             modelBuilder.Entity("FitAppModels.FitAppUserExePrograms", b =>
@@ -565,6 +558,15 @@ namespace FitAppDataStoreEF.Migrations
                         .IsRequired();
 
                     b.Navigation("Exe");
+
+                    b.Navigation("FitAppUser");
+                });
+
+            modelBuilder.Entity("FitAppModels.Workout", b =>
+                {
+                    b.HasOne("FitAppModels.FitAppUser", "FitAppUser")
+                        .WithMany()
+                        .HasForeignKey("FitAppUserId");
 
                     b.Navigation("FitAppUser");
                 });
@@ -627,14 +629,14 @@ namespace FitAppDataStoreEF.Migrations
                     b.Navigation("FitAppUserExePrograms");
                 });
 
-            modelBuilder.Entity("FitAppModels.ExeWorkout", b =>
-                {
-                    b.Navigation("ExeProgramWorkouts");
-                });
-
             modelBuilder.Entity("FitAppModels.FitAppUser", b =>
                 {
                     b.Navigation("FitAppUserExePrograms");
+                });
+
+            modelBuilder.Entity("FitAppModels.Workout", b =>
+                {
+                    b.Navigation("ExeProgramWorkouts");
                 });
 #pragma warning restore 612, 618
         }

@@ -20,6 +20,10 @@ namespace FitAppModels
         [MaxLength(75)]
         public string Email { get; set; }
 
+        [Compare("Email", ErrorMessage = "The email and confirmation email do not match.")]
+        [MaxLength(75)]
+        public string ConfirmEmail { get; set; }
+
         [Required]
         [MaxLength(50)]
         public string Password { get; set; }
