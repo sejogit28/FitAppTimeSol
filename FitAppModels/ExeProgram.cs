@@ -22,7 +22,7 @@ namespace FitAppModels
 
         public IList<FitAppUserExePrograms> FitAppUserExePrograms { get; set; }
 
-        public IList<ExeProgramWorkouts> ExeProgramWorkouts { get; set;}
+        //public IList<ExeProgramWorkouts> ExeProgramWorkouts { get; set;}
     }
 
 

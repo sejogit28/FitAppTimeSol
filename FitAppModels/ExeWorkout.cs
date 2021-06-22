@@ -10,7 +10,8 @@ namespace FitAppModels
     public class ExeWorkout
     {
         [Key]
-        public string ExeWorkoutId { get; set; }
+        public int ExeWorkoutId { get; set; }
+
         [MaxLength(400)]
         public string GoalNotes { get; set; }
 
@@ -22,7 +23,7 @@ namespace FitAppModels
         public string FitAppUserFirstName { get; set; }
         public FitAppUser FitAppUser { get; set; }
 
-        public IList<ExeProgramWorkouts> ExeProgramWorkouts { get; set; }
+        //public IList<ExeProgramWorkouts> ExeProgramWorkouts { get; set; }
 
     }
 }

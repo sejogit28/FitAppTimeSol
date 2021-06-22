@@ -31,6 +31,6 @@ namespace FitAppModels
         public FitAppUser FitAppUser { get; set; }
 
         public int ExeWorkoutExeWorkoutId { get; set; }
-        public ExeWorkout ExeWorkout { get; set; }
+        //public ExeWorkout ExeWorkout { get; set; }
     }
 }

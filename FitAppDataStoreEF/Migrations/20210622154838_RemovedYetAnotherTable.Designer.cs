@@ -4,14 +4,16 @@ using FitAppDataStoreEF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FitAppDataStoreEF.Migrations
 {
     [DbContext(typeof(FitAppDbContext))]
-    partial class FitAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210622154838_RemovedYetAnotherTable")]
+    partial class RemovedYetAnotherTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -101,50 +103,6 @@ namespace FitAppDataStoreEF.Migrations
                     b.HasIndex("FitAppUserId");
 
                     b.ToTable("ExeProgram");
-                });
-
-            modelBuilder.Entity("FitAppModels.ExeProgramWorkouts", b =>
-                {
-                    b.Property<int>("ExeProgramExeProgramId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ExeWorkoutExeWorkoutId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ExeProgramExeProgramId", "ExeWorkoutExeWorkoutId");
-
-                    b.HasIndex("ExeWorkoutExeWorkoutId");
-
-                    b.ToTable("ExeProgramWorkouts");
-                });
-
-            modelBuilder.Entity("FitAppModels.ExeWorkout", b =>
-                {
-                    b.Property<int>("ExeWorkoutId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("FitAppUserFirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FitAppUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("GoalNotes")
-                        .HasMaxLength(400)
-                        .HasColumnType("nvarchar(400)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.HasKey("ExeWorkoutId");
-
-                    b.HasIndex("FitAppUserId");
-
-                    b.ToTable("ExeWorkout");
                 });
 
             modelBuilder.Entity("FitAppModels.FitAppUser", b =>
@@ -361,29 +319,29 @@ namespace FitAppDataStoreEF.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4efac84d-6449-4675-aed3-f82d18012692",
-                            ConcurrencyStamp = "e7240151-a58a-4878-8ff3-8e6ccc2a66ff",
+                            Id = "da91d04d-6a20-4ddd-9922-7fb8327c62d6",
+                            ConcurrencyStamp = "920e01d0-036e-4526-b1d2-90b3c673b057",
                             Name = "Athlete",
                             NormalizedName = "ATHLETE"
                         },
                         new
                         {
-                            Id = "851f1862-525a-4b7d-9d2f-238e449540fb",
-                            ConcurrencyStamp = "e692368e-e167-4ad1-8a33-ce9804f41767",
+                            Id = "17ccacd6-6622-49be-8468-b948f228a32c",
+                            ConcurrencyStamp = "28534968-fd12-4878-850f-a0352d86f287",
                             Name = "Coach",
                             NormalizedName = "COACH"
                         },
                         new
                         {
-                            Id = "b45a780c-a39b-4554-bfe2-ef52a0199af8",
-                            ConcurrencyStamp = "fee90aba-4d0b-48ec-a1bf-50822b9e671b",
+                            Id = "efd7ad09-c5ad-4458-9ddb-f34fa85de3a3",
+                            ConcurrencyStamp = "2ca82795-15f3-4967-8da2-e6b69c79eba6",
                             Name = "Head Coach",
                             NormalizedName = "HEAD COACH"
                         },
                         new
                         {
-                            Id = "ebe2d5cd-ae9a-4aec-a083-7a3ba0475fe3",
-                            ConcurrencyStamp = "540a6bf3-427e-4694-9b49-4e285e5768d1",
+                            Id = "e47691af-ea87-4a17-808f-6c955544a6f9",
+                            ConcurrencyStamp = "51308b6f-35c6-46aa-8c0a-88582e58360b",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -503,34 +461,6 @@ namespace FitAppDataStoreEF.Migrations
                 });
 
             modelBuilder.Entity("FitAppModels.ExeProgram", b =>
-                {
-                    b.HasOne("FitAppModels.FitAppUser", "FitAppUser")
-                        .WithMany()
-                        .HasForeignKey("FitAppUserId");
-
-                    b.Navigation("FitAppUser");
-                });
-
-            modelBuilder.Entity("FitAppModels.ExeProgramWorkouts", b =>
-                {
-                    b.HasOne("FitAppModels.ExeProgram", "ExeProgram")
-                        .WithMany()
-                        .HasForeignKey("ExeProgramExeProgramId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FitAppModels.ExeWorkout", "ExeWorkout")
-                        .WithMany()
-                        .HasForeignKey("ExeWorkoutExeWorkoutId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ExeProgram");
-
-                    b.Navigation("ExeWorkout");
-                });
-
-            modelBuilder.Entity("FitAppModels.ExeWorkout", b =>
                 {
                     b.HasOne("FitAppModels.FitAppUser", "FitAppUser")
                         .WithMany()

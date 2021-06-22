@@ -24,26 +24,26 @@ namespace FitAppTimeApi.Controllers
         [HttpGet("libexelist")]
         public async Task<IActionResult> GetLibExes() 
         {
-            var exeLibList = await _datFitBase.LibExe.ToListAsync();
-            return Ok(exeLibList);
+            var libExeList = await _datFitBase.LibExe.ToListAsync();
+            return Ok(libExeList);
         }
 
         [HttpGet("libexesbyuser/{fitAppUserId}")]
         public async Task<IActionResult> GetLibExesByUser(string fitAppUserId)
         {
             
-            var exeLibsByUser = await _datFitBase.LibExe.Where(t => t.FitAppUserId == fitAppUserId).ToListAsync();
+            var libExesByUser = await _datFitBase.LibExe.Where(t => t.FitAppUserId == fitAppUserId).ToListAsync();
             //var expensesByMonthList = await _datExpBase.Expenses.Where(t => t.MonthYear == targetMonth).ToListAsync();
-            if (exeLibsByUser == null || exeLibsByUser.Count == 0)
+            if (libExesByUser == null || libExesByUser.Count == 0)
             {
-                exeLibsByUser = new List<LibExe>();
-                return Ok(exeLibsByUser);
+                libExesByUser = new List<LibExe>();
+                return Ok(libExesByUser);
             }
-            return Ok(exeLibsByUser);
+            return Ok(libExesByUser);
         }
 
         [HttpGet("singlelibexe/{singleLibExeId:int}")]
-        public async Task<IActionResult> GetSingleExpense(int singleLibExeId)
+        public async Task<IActionResult> GetSingleLibExe(int singleLibExeId)
         {
             var libExe = await _datFitBase.LibExe.FindAsync(singleLibExeId);
             if (libExe == null)
@@ -54,7 +54,7 @@ namespace FitAppTimeApi.Controllers
         }
 
         [HttpPost("createlibexe")]
-        public async Task<IActionResult> createExpense([FromBody] LibExe newLibExe)
+        public async Task<IActionResult> createLibExe([FromBody] LibExe newLibExe)
         {
             //newExpense.MonthYear = newExpense.DateSpent.ToString("yyyy-MM");
             await _datFitBase.LibExe.AddAsync(newLibExe);
@@ -62,7 +62,7 @@ namespace FitAppTimeApi.Controllers
             return Ok(newLibExe);
         }
 
-        [HttpPut("updateexelib/{updatedLibExeId:int}")]
+        [HttpPut("updatelibexe/{updatedLibExeId:int}")]
         public async Task<IActionResult> updateLibExe(int updatedLibExeId, [FromBody] LibExe updatedLibExe)
         {
             if (updatedLibExeId != updatedLibExe.LibExeId) return BadRequest();
@@ -84,7 +84,7 @@ namespace FitAppTimeApi.Controllers
         }
 
         [HttpDelete("deletelibexe/{deletedLibExeId:int}")]
-        public async Task<IActionResult> deleteExpense(int deletedLibExeId)
+        public async Task<IActionResult> deleteLibExe(int deletedLibExeId)
         {
             var deletedLibExe = await _datFitBase.LibExe.FindAsync(deletedLibExeId);
             if (deletedLibExe == null)
