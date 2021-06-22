@@ -4,14 +4,16 @@ using FitAppDataStoreEF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FitAppDataStoreEF.Migrations
 {
     [DbContext(typeof(FitAppDbContext))]
-    partial class FitAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210619231918_SecondMigrationToContinueFixingNVARCharMaxProblem")]
+    partial class SecondMigrationToContinueFixingNVARCharMaxProblem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -141,11 +143,6 @@ namespace FitAppDataStoreEF.Migrations
                         .HasMaxLength(400)
                         .HasColumnType("nvarchar(400)");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
                     b.HasKey("ExeWorkoutId");
 
                     b.HasIndex("FitAppUserId");
@@ -255,9 +252,6 @@ namespace FitAppDataStoreEF.Migrations
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
-                    b.Property<bool>("EachSide")
-                        .HasColumnType("bit");
-
                     b.Property<string>("FitAppUserFirstName")
                         .HasColumnType("nvarchar(max)");
 
@@ -265,7 +259,6 @@ namespace FitAppDataStoreEF.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LibExeName")
-                        .IsRequired()
                         .HasMaxLength(75)
                         .HasColumnType("nvarchar(75)");
 
@@ -367,29 +360,29 @@ namespace FitAppDataStoreEF.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "be5ffcb9-9bab-4633-a3cc-ba26e309c55a",
-                            ConcurrencyStamp = "97e802cb-f216-4a9c-9937-54ee9ba15389",
+                            Id = "812e3e51-c7ed-4a20-86ae-6ffcfbe5a79a",
+                            ConcurrencyStamp = "8a17ed6e-807a-4871-abc9-0648a4e555d7",
                             Name = "Athlete",
                             NormalizedName = "ATHLETE"
                         },
                         new
                         {
-                            Id = "58254641-1cee-4365-a8ca-ab6981d1d79d",
-                            ConcurrencyStamp = "b4b5d4e9-bbf4-4ef2-ba64-1920696d338f",
+                            Id = "332b46c5-c724-4503-a8fd-032f76266ebf",
+                            ConcurrencyStamp = "6d0a304e-fe1f-4627-be46-65f129292df1",
                             Name = "Coach",
                             NormalizedName = "COACH"
                         },
                         new
                         {
-                            Id = "b1f2fe74-239c-4c7c-9df5-278af6d4ff2f",
-                            ConcurrencyStamp = "97c6b516-77cf-4ade-8e22-c9747ef4cdb5",
+                            Id = "cd434bb4-c0e0-4835-a4bf-b3e6a6b43281",
+                            ConcurrencyStamp = "7e096719-c89a-4a4c-a388-b4d5b443d7db",
                             Name = "Head Coach",
                             NormalizedName = "HEAD COACH"
                         },
                         new
                         {
-                            Id = "a3cfde46-47ba-424a-bf71-85a234c68096",
-                            ConcurrencyStamp = "e6312a0f-79af-4b76-9ca9-40476274f746",
+                            Id = "a8b7c08e-f2dc-4f0f-b0b9-9f89fe232697",
+                            ConcurrencyStamp = "3f4a047a-476a-47c9-9e6f-904f3e7a6da0",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });

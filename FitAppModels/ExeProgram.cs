@@ -11,7 +11,9 @@ namespace FitAppModels
     {
         [Key]
         public int ExeProgramId { get; set; }
+        [MaxLength(75)]
         public string Goal { get; set; }
+        [MaxLength(300)]
         public string GoalNotes { get; set; }
 
         public string FitAppUserId { get; set; }

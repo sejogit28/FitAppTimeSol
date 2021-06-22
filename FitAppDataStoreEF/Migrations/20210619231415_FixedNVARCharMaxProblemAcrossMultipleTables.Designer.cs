@@ -4,14 +4,16 @@ using FitAppDataStoreEF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FitAppDataStoreEF.Migrations
 {
     [DbContext(typeof(FitAppDbContext))]
-    partial class FitAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210619231415_FixedNVARCharMaxProblemAcrossMultipleTables")]
+    partial class FixedNVARCharMaxProblemAcrossMultipleTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -141,11 +143,6 @@ namespace FitAppDataStoreEF.Migrations
                         .HasMaxLength(400)
                         .HasColumnType("nvarchar(400)");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
                     b.HasKey("ExeWorkoutId");
 
                     b.HasIndex("FitAppUserId");
@@ -176,12 +173,10 @@ namespace FitAppDataStoreEF.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
-                        .HasMaxLength(140)
-                        .HasColumnType("nvarchar(140)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -255,9 +250,6 @@ namespace FitAppDataStoreEF.Migrations
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
-                    b.Property<bool>("EachSide")
-                        .HasColumnType("bit");
-
                     b.Property<string>("FitAppUserFirstName")
                         .HasColumnType("nvarchar(max)");
 
@@ -265,7 +257,6 @@ namespace FitAppDataStoreEF.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LibExeName")
-                        .IsRequired()
                         .HasMaxLength(75)
                         .HasColumnType("nvarchar(75)");
 
@@ -367,29 +358,29 @@ namespace FitAppDataStoreEF.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "be5ffcb9-9bab-4633-a3cc-ba26e309c55a",
-                            ConcurrencyStamp = "97e802cb-f216-4a9c-9937-54ee9ba15389",
+                            Id = "71e7c510-9215-4bd4-9296-9f2e6d2f9780",
+                            ConcurrencyStamp = "d5434311-429e-4eb4-a06e-e8747e3f6bb7",
                             Name = "Athlete",
                             NormalizedName = "ATHLETE"
                         },
                         new
                         {
-                            Id = "58254641-1cee-4365-a8ca-ab6981d1d79d",
-                            ConcurrencyStamp = "b4b5d4e9-bbf4-4ef2-ba64-1920696d338f",
+                            Id = "6d147f49-1573-406b-be7f-9830dbd338b4",
+                            ConcurrencyStamp = "dc0442d8-c63e-4987-8b98-92ea58a74154",
                             Name = "Coach",
                             NormalizedName = "COACH"
                         },
                         new
                         {
-                            Id = "b1f2fe74-239c-4c7c-9df5-278af6d4ff2f",
-                            ConcurrencyStamp = "97c6b516-77cf-4ade-8e22-c9747ef4cdb5",
+                            Id = "ee73ffdd-efa7-43c0-ac84-493a9902f60d",
+                            ConcurrencyStamp = "989cf926-c711-47c2-82b4-45552a3f63b3",
                             Name = "Head Coach",
                             NormalizedName = "HEAD COACH"
                         },
                         new
                         {
-                            Id = "a3cfde46-47ba-424a-bf71-85a234c68096",
-                            ConcurrencyStamp = "e6312a0f-79af-4b76-9ca9-40476274f746",
+                            Id = "f3e307bf-e0c5-4400-ae9d-11668f597c0a",
+                            ConcurrencyStamp = "6577c27e-e5d5-4bdb-bb59-dbd1e0f9e551",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });

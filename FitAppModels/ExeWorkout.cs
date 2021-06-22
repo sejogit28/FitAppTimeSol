@@ -11,8 +11,12 @@ namespace FitAppModels
     {
         [Key]
         public string ExeWorkoutId { get; set; }
+        [MaxLength(400)]
         public string GoalNotes { get; set; }
 
+        [Required]
+        [MaxLength(250)]
+        public string Title { get; set; }
 
         public string FitAppUserId { get; set; }
         public string FitAppUserFirstName { get; set; }
