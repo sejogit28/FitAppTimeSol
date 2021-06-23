@@ -23,7 +23,9 @@ namespace FitAppModels
         public string FitAppUserFirstName { get; set; }
         public FitAppUser FitAppUser { get; set; }
 
-        //public IList<ExeProgramWorkouts> ExeProgramWorkouts { get; set; }
+        public IList<Exe> Exe { get; set; }
+
+        public IList<ExeProgramWorkouts> ExeProgramWorkouts { get; set; }
 
     }
 }

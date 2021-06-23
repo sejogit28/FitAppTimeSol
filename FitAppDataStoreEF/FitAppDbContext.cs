@@ -19,7 +19,9 @@ namespace FitAppDataStoreEF
         public DbSet<LibExe> LibExe { get; set; }
         public DbSet<ExeProgram> ExeProgram { get; set; }
         public DbSet<ExeWorkout> ExeWorkout { get; set; }
-
+        public DbSet<FitAppUserExePrograms> FitAppUserExePrograms { get;set; }
+        public DbSet<ExeProgramWorkouts> ExeProgramWorkouts { get; set; }
+        public DbSet<UserExeValues> UserExeValues { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

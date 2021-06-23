@@ -19,7 +19,7 @@ namespace FitAppModels
         public string WorkoutGroup { get; set; }
         public int WorkoutGroupOrder { get; set; }
         public string Tempo { get; set; }
-        public string Rest { get; set; }
+        public int Rest { get; set; }
         public string ExeNotes { get; set;}
 
         //ExeType == List that wil be made in the front end
@@ -29,8 +29,8 @@ namespace FitAppModels
         public string FitAppUserId { get; set; }
         public string FitAppUserFirstName { get; set; }
         public FitAppUser FitAppUser { get; set; }
-
+        [Required]
         public int ExeWorkoutExeWorkoutId { get; set; }
-        //public ExeWorkout ExeWorkout { get; set; }
+        public ExeWorkout ExeWorkout { get; set; }
     }
 }

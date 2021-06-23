@@ -61,7 +61,7 @@ namespace FitAppTimeApi.Controllers
             return Ok(newExeWorkout);
         }
 
-        [HttpPut("updateexeworkout/{updatedeExeWorkoutId:int}")]
+        [HttpPut("updateexeworkout/{updatedExeWorkoutId:int}")]
         public async Task<IActionResult> updateExeWorkout(int updatedExeWorkoutId, [FromBody] ExeWorkout updatedExeWorkout)
         {
             if (updatedExeWorkoutId != updatedExeWorkout.ExeWorkoutId) return BadRequest();

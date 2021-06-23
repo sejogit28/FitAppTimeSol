@@ -12,6 +12,10 @@ namespace FitAppModels
         [Key]
         public int ExeProgramId { get; set; }
         [MaxLength(75)]
+        public string Title { get; set; }
+
+        [Required]
+        [MaxLength(150)]
         public string Goal { get; set; }
         [MaxLength(300)]
         public string GoalNotes { get; set; }
@@ -22,7 +26,7 @@ namespace FitAppModels
 
         public IList<FitAppUserExePrograms> FitAppUserExePrograms { get; set; }
 
-        //public IList<ExeProgramWorkouts> ExeProgramWorkouts { get; set;}
+        public IList<ExeProgramWorkouts> ExeProgramWorkouts { get; set;}
     }
 
 
