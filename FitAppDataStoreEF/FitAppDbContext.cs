@@ -1,4 +1,6 @@
 ﻿using FitAppModels;
+using FitAppModels.BaseModels;
+using FitAppModels.MTMModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +21,8 @@ namespace FitAppDataStoreEF
         public DbSet<LibExe> LibExe { get; set; }
         public DbSet<ExeProgram> ExeProgram { get; set; }
         public DbSet<ExeWorkout> ExeWorkout { get; set; }
+        public DbSet<Organizations> Organizations { get; set; }
+        public DbSet<OrganizationFitAppUsers> OrganizationFitAppUsers { get; set; }
         public DbSet<FitAppUserExePrograms> FitAppUserExePrograms { get;set; }
         public DbSet<ExeProgramWorkouts> ExeProgramWorkouts { get; set; }
         public DbSet<UserExeValues> UserExeValues { get; set; }
@@ -33,6 +37,9 @@ namespace FitAppDataStoreEF
 
             builder.Entity<ExeProgramWorkouts>()
             .HasKey(o => new { o.ExeProgramExeProgramId, o.ExeWorkoutExeWorkoutId });
+
+            builder.Entity<OrganizationFitAppUsers>()
+            .HasKey(o => new { o.OrganizationsOrganizationId, o.FitAppUserId });
 
             builder.Entity<UserExeValues>()
             .HasKey(o => new { o.FitAppUserId, o.ExeExeId, o.EnteredValuesDate });

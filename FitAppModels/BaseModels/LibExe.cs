@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FitAppModels
+namespace FitAppModels.BaseModels
 {
     public class LibExe
     {

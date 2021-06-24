@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using FitAppModels.MTMModels;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FitAppModels
+namespace FitAppModels.BaseModels
 {
     public class FitAppUser : IdentityUser
     {
@@ -17,8 +18,11 @@ namespace FitAppModels
         public DateTime DateAdded { get; set; }
 
         public IList<FitAppUserExePrograms> FitAppUserExePrograms  { get;set;}
+
+        public IList<OrganizationFitAppUsers> OrganizationFitAppUsers { get; set; }
+
     }
 
-    
+
 
 }

@@ -1,5 +1,6 @@
 using FitAppDataStoreEF;
 using FitAppModels;
+using FitAppModels.BaseModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

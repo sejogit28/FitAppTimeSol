@@ -1,6 +1,9 @@
 ﻿using FitAppDataStoreEF;
 using FitAppModels;
+using FitAppModels.BaseModels;
+using FitAppModels.MTMModels;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -15,10 +18,13 @@ namespace FitAppTimeApi.Controllers
     public class ExeProgramController : ControllerBase
     {
         private readonly FitAppDbContext _datFitBase;
+        private readonly UserManager<FitAppUser> _userManager;
 
-        public ExeProgramController(FitAppDbContext fitDB)
+        public ExeProgramController(FitAppDbContext fitDB, UserManager<FitAppUser> userManager)
         {
             _datFitBase = fitDB;
+            _userManager = userManager;
+
         }
 
         [HttpGet("exeprogramlist")]
@@ -60,7 +66,7 @@ namespace FitAppTimeApi.Controllers
             return Ok(new OperationResponse
             {
                 OperationSuccessful = true,
-                OperationMessage = $"Success!! {newExeProgram.Title} has been created!",
+                OperationMessage = $"Success!! {newExeProgram.ExeProgramTitle} has been created!",
                 ReturnedObject = newExeProgram
             });
         }
@@ -79,9 +85,9 @@ namespace FitAppTimeApi.Controllers
                 await _datFitBase.SaveChangesAsync();
                 return Ok(new OperationResponse
                 {
-                        OperationSuccessful = true,
-                        OperationMessage = $"Success!! {updatedExeProgram.Title} has been updated!",
-                        ReturnedObject = updatedExeProgram
+                    OperationSuccessful = true,
+                    OperationMessage = $"Success!! {updatedExeProgram.ExeProgramTitle} has been updated!",
+                    ReturnedObject = updatedExeProgram
                 });
             }
             catch
@@ -123,12 +129,12 @@ namespace FitAppTimeApi.Controllers
         }
 
         [HttpPost("addworkouttoprogram/{programId:int}/{workoutId:int}")]
-        public async Task<IActionResult> addWorkoutToProgram(int programId, int workoutId) 
+        public async Task<IActionResult> addWorkoutToProgram(int programId, int workoutId)
         {
             var currentProgram = await _datFitBase.ExeProgram.FindAsync(programId);
             var currentWorkout = await _datFitBase.ExeWorkout.FindAsync(workoutId);
 
-            if(currentProgram == null) 
+            if (currentProgram == null)
             {
                 return BadRequest(new OperationResponse
                 {
@@ -147,7 +153,7 @@ namespace FitAppTimeApi.Controllers
             }
 
             var programCheck = await _datFitBase.ExeProgramWorkouts.FindAsync(currentProgram.ExeProgramId, currentWorkout.ExeWorkoutId);
-            if(programCheck == null) 
+            if (programCheck == null)
             {
                 var newExeProgramWorkout = new ExeProgramWorkouts
                 {
@@ -159,11 +165,11 @@ namespace FitAppTimeApi.Controllers
                 return Ok(new OperationResponse
                 {
                     OperationSuccessful = true,
-                    OperationMessage = $"Success!! {currentWorkout.Title} has been saved to {currentProgram.Title}"
+                    OperationMessage = $"Success!! {currentWorkout.ExeWorkoutTitle} has been saved to {currentProgram.ExeProgramTitle}"
                 });
             }
 
-            else 
+            else
             {
                 return BadRequest(new OperationResponse
                 {
@@ -175,7 +181,7 @@ namespace FitAppTimeApi.Controllers
         }
 
         [HttpDelete("deleteworkoutfromprogram/{programId:int}/{workoutId:int}")]
-        public async Task<IActionResult> deleteWorkoutFromProgram(int programId, int workoutId) 
+        public async Task<IActionResult> deleteWorkoutFromProgram(int programId, int workoutId)
         {
             var currentProgram = await _datFitBase.ExeProgram.FindAsync(programId);
             var currentWorkout = await _datFitBase.ExeWorkout.FindAsync(workoutId);
@@ -191,15 +197,15 @@ namespace FitAppTimeApi.Controllers
 
             if (currentWorkout == null)
             {
-                return BadRequest (new OperationResponse 
+                return BadRequest(new OperationResponse
                 {
-                    OperationSuccessful= false,
+                    OperationSuccessful = false,
                     OperationMessage = "Operation has been cancelled..the workout could not be found"
                 });
             }
 
             var currentExeProgramWorkout = await _datFitBase.ExeProgramWorkouts.FindAsync(currentProgram.ExeProgramId, currentWorkout.ExeWorkoutId);
-            if (currentExeProgramWorkout == null) 
+            if (currentExeProgramWorkout == null)
             {
                 return BadRequest(new OperationResponse
                 {
@@ -207,7 +213,7 @@ namespace FitAppTimeApi.Controllers
                     OperationMessage = "The requested workout you tried to remove from the requested program is not currently in that program"
                 });
             }
-            else 
+            else
             {
                 _datFitBase.ExeProgramWorkouts.Remove(currentExeProgramWorkout);
                 await _datFitBase.SaveChangesAsync();
@@ -217,8 +223,102 @@ namespace FitAppTimeApi.Controllers
                     OperationMessage = "Workout removed successfully"
                 });
             }
-               
+
         }
 
+        [HttpPost("addusertoprogram/{programId:int}/{userId}")]
+        public async Task<IActionResult> addUserToProgram(int programId, string userId)
+        {
+            var currentProgram = await _datFitBase.ExeProgram.FindAsync(programId);
+            var currentUser = await _userManager.FindByIdAsync(userId);
+            if (currentProgram == null)
+            {
+                return BadRequest(new OperationResponse
+                {
+                    OperationSuccessful = false,
+                    OperationMessage = "Operation has been cancelled...the program could not be found"
+                });
+            }
+
+            if (currentUser == null)
+            {
+                return BadRequest(new OperationResponse
+                {
+                    OperationSuccessful = false,
+                    OperationMessage = "Operation has been cancelled..the user could not be found"
+                });
+            }
+
+            var programCheck = await _datFitBase.FitAppUserExePrograms.FindAsync(currentProgram.ExeProgramId, currentUser.Id);
+            if (programCheck == null)
+            {
+                var newExeProgramUser = new FitAppUserExePrograms
+                {
+                    FitAppUserId = currentUser.Id,
+                    ExeProgramExeProgramId = currentProgram.ExeProgramId
+                };
+
+                await _datFitBase.AddAsync(newExeProgramUser);
+                await _datFitBase.SaveChangesAsync();
+                return Ok(new OperationResponse
+                {
+                    OperationSuccessful = true,
+                    OperationMessage = $"Success!! {currentUser.FirstName} has been added to {currentProgram.ExeProgramTitle}!"
+                });
+            }
+            else
+            {
+                return BadRequest(new OperationResponse
+                {
+                    OperationSuccessful = false,
+                    OperationMessage = "Operation has been cancelled...this user is already apart of this program..."
+                });
+            }
+        }
+
+        [HttpDelete("removeuserfromprogram/{programId:int}/{userId}")]
+        public async Task<IActionResult> removeUserFromProgram(int programId, string userId)
+        {
+            var currentProgram = await _datFitBase.ExeProgram.FindAsync(programId);
+            var currentUser = await _userManager.FindByIdAsync(userId);
+            if (currentProgram == null)
+            {
+                return BadRequest(new OperationResponse
+                {
+                    OperationSuccessful = false,
+                    OperationMessage = "Operation has been cancelled...the program could not be found"
+                });
+            }
+
+            if (currentUser == null)
+            {
+                return BadRequest(new OperationResponse
+                {
+                    OperationSuccessful = false,
+                    OperationMessage = "Operation has been cancelled..the user could not be found"
+                });
+            }
+
+            var currentExeProgramUser = await _datFitBase.FitAppUserExePrograms.FindAsync(currentProgram.ExeProgramId, currentUser.Id);
+            if (currentExeProgramUser == null)
+            {
+                return BadRequest(new OperationResponse
+                {
+                    OperationSuccessful = false,
+                    OperationMessage = "The requested user you tried to remove from the requested program is not currently in that program"
+                });
+            }
+            else
+            {
+                _datFitBase.FitAppUserExePrograms.Remove(currentExeProgramUser);
+                await _datFitBase.SaveChangesAsync();
+                return Ok(new OperationResponse
+                {
+                    OperationSuccessful = true,
+                    OperationMessage = "User removed successfully"
+                });
+            }
+
+        }
     }
 }

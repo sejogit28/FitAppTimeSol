@@ -1,11 +1,12 @@
-﻿using System;
+﻿using FitAppModels.MTMModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FitAppModels
+namespace FitAppModels.BaseModels
 {
     public class ExeWorkout
     {
@@ -17,7 +18,7 @@ namespace FitAppModels
 
         [Required]
         [MaxLength(250)]
-        public string Title { get; set; }
+        public string ExeWorkoutTitle { get; set; }
 
         public string FitAppUserId { get; set; }
         public string FitAppUserFirstName { get; set; }

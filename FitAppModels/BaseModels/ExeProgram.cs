@@ -1,18 +1,19 @@
-﻿using System;
+﻿using FitAppModels.MTMModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FitAppModels
+namespace FitAppModels.BaseModels
 {
     public class ExeProgram
     {
         [Key]
         public int ExeProgramId { get; set; }
         [MaxLength(75)]
-        public string Title { get; set; }
+        public string ExeProgramTitle { get; set; }
 
         [Required]
         [MaxLength(150)]

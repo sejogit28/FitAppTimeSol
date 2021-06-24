@@ -1,5 +1,6 @@
 ﻿using FitAppDataStoreEF;
 using FitAppModels;
+using FitAppModels.BaseModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
