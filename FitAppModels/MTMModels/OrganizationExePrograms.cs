@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace FitAppModels.MTMModels
 {
-    public class FitAppUserExePrograms
+    public class OrganizationExePrograms
     {
-        //This table is to assign athletes to a program(aka calendar)
-        public string FitAppUserId { get; set; }
-        public FitAppUser FitAppUser { get; set; }
+        public int OrganizationsOrganizationId { get; set; }
+        public Organizations Organizations { get; set; }
+
         public int ExeProgramExeProgramId { get; set; }
         public ExeProgram ExeProgram { get; set; }
     }

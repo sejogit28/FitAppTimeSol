@@ -17,7 +17,7 @@ namespace FitAppModels.BaseModels
         public string LastName { get; set; }
         public DateTime DateAdded { get; set; }
 
-        public IList<FitAppUserExePrograms> FitAppUserExePrograms  { get;set;}
+        //public IList<FitAppUserExePrograms> FitAppUserExePrograms  { get;set;}
 
         public IList<OrganizationFitAppUsers> OrganizationFitAppUsers { get; set; }
 

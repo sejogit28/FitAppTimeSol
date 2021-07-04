@@ -226,7 +226,9 @@ namespace FitAppTimeApi.Controllers
 
         }
 
-        [HttpPost("addusertoprogram/{programId:int}/{userId}")]
+        [HttpPost("addathletetoprogram/{programId:int}/{userId}")]
+        //If an athlete is added to a program it allows them to see the programs workouts,
+        //    if a coach is with a program it's cause they wrote it(assign athlete to calendar...)
         public async Task<IActionResult> addUserToProgram(int programId, string userId)
         {
             var currentProgram = await _datFitBase.ExeProgram.FindAsync(programId);

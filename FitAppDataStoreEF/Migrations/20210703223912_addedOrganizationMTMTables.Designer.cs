@@ -4,14 +4,16 @@ using FitAppDataStoreEF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FitAppDataStoreEF.Migrations
 {
     [DbContext(typeof(FitAppDbContext))]
-    partial class FitAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210703223912_addedOrganizationMTMTables")]
+    partial class addedOrganizationMTMTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -377,26 +379,6 @@ namespace FitAppDataStoreEF.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Set11Values")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Set12Values")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Set13Values")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Set14Values")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Set15Values")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
                     b.Property<string>("Set1Values")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -469,57 +451,43 @@ namespace FitAppDataStoreEF.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "598e31c3-c7c8-4971-b402-19706b3192a4",
-                            ConcurrencyStamp = "1907d258-f203-4216-b2aa-112b53d26057",
+                            Id = "52dbd8d2-1789-40cd-bb83-a4ff8eb98ca7",
+                            ConcurrencyStamp = "504dc29a-6b08-4198-a0a8-d90e1ecfeeb0",
                             Name = "Athlete",
                             NormalizedName = "ATHLETE"
                         },
                         new
                         {
-                            Id = "26f89a5c-65a4-4120-9ba3-04a41e983e09",
-                            ConcurrencyStamp = "05ded6f5-9022-4a7d-a193-df36e5cebcb3",
-                            Name = "Coach",
-                            NormalizedName = "COACH"
+                            Id = "14502816-ef64-4eaf-86ae-65168f63c6b1",
+                            ConcurrencyStamp = "27b65cb6-0689-4d24-9c20-a4123f19abcf",
+                            Name = "Level 1 Coach",
+                            NormalizedName = "LEVEL 1 COACH"
                         },
                         new
                         {
-                            Id = "9c569e6d-9ecf-4185-b8d0-f1a64e01ee6f",
-                            ConcurrencyStamp = "d77253d4-7e95-4fe2-a58f-d9f4ed427479",
-                            Name = "Level 1 Organization",
-                            NormalizedName = "LEVEL 1 ORGANIZATION"
+                            Id = "0a8adbc4-e2d9-4aa3-9456-8710df330305",
+                            ConcurrencyStamp = "7aff2b09-21f6-4f4f-8b15-d3119270f2c9",
+                            Name = "Level 2 Coach",
+                            NormalizedName = "LEVEL 2 COACH"
                         },
                         new
                         {
-                            Id = "3def6517-1968-4fe2-bbd4-b48556aa8346",
-                            ConcurrencyStamp = "d7977576-cb9a-4b3f-8bc1-eee2471afa54",
-                            Name = "Level 2 Organization",
-                            NormalizedName = "LEVEL 2 ORGANIZATION"
+                            Id = "69e3a7c2-7048-4fce-a065-06a171e232fc",
+                            ConcurrencyStamp = "8aeb0d5a-35e4-4504-9b65-fa05a04bfe1b",
+                            Name = "Level 3 Small Organization",
+                            NormalizedName = "LEVEL 3 SMALL ORGANIZATION"
                         },
                         new
                         {
-                            Id = "e23c4c8a-3f68-4dda-8c0e-1f178528bdd4",
-                            ConcurrencyStamp = "c19df55d-86ee-4756-98cc-81cc8f75cf70",
-                            Name = "Level 3 Organization",
-                            NormalizedName = "LEVEL 3 LARGE ORGANIZATION"
-                        },
-                        new
-                        {
-                            Id = "d725b8c6-f3a1-4a4c-97dd-a277864a3d0a",
-                            ConcurrencyStamp = "af3a22eb-298c-4b31-a932-f48462a61759",
+                            Id = "56005b66-a5a8-4b4f-a7ed-7db5de2cd11d",
+                            ConcurrencyStamp = "4626153c-5611-4753-bbcc-27f6d65e918d",
                             Name = "Level 4 Organization",
-                            NormalizedName = "LEVEL 4 ORGANIZATION"
+                            NormalizedName = "LEVEL 4 LARGE ORGANIZATION"
                         },
                         new
                         {
-                            Id = "4312e2f7-91c8-47bd-ba9c-5855fe2bc294",
-                            ConcurrencyStamp = "666c6b3c-c078-4916-b094-981a11decc27",
-                            Name = "Level 5 Organization",
-                            NormalizedName = "LEVEL 5 ORGANIZATION"
-                        },
-                        new
-                        {
-                            Id = "29312808-d130-4582-8837-bccb6cb1186f",
-                            ConcurrencyStamp = "fd32d02f-1524-4782-942c-2712881a7c77",
+                            Id = "613c08a6-887f-43e4-82fd-ad2bc7a7a547",
+                            ConcurrencyStamp = "e15d463b-9d8f-4743-9d13-a6779c1a937a",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });

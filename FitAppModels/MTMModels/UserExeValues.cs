@@ -10,12 +10,14 @@ namespace FitAppModels
 {
     public class UserExeValues
     {
+        //Athletes Id
         public string FitAppUserId { get; set; }
         public FitAppUser FitAppUser { get; set; }
         public int ExeExeId { get; set; }
         public Exe Exe { get; set; }
 
         public DateTime EnteredValuesDate { get; set; }
+        //The following needs to match the amount of sets PER EXERCISE
         [MaxLength(50)]
         public string Set1Values { get; set; }
         [MaxLength(50)]
@@ -36,5 +38,15 @@ namespace FitAppModels
         public string Set9Values { get; set; }
         [MaxLength(50)]
         public string Set10Values { get; set; }
+        [MaxLength(50)]
+        public string Set11Values { get; set; }
+        [MaxLength(50)]
+        public string Set12Values { get; set; }
+        [MaxLength(50)]
+        public string Set13Values { get; set; }
+        [MaxLength(50)]
+        public string Set14Values { get; set; }
+        [MaxLength(50)]
+        public string Set15Values { get; set; }
     }
 }

@@ -28,5 +28,8 @@ namespace FitAppModels.BaseModels
 
         public IList<ExeProgramWorkouts> ExeProgramWorkouts { get; set; }
 
+        public IList<OrganizationExeWorkouts> OrganizationExeWorkouts { get; set; }
+
+
     }
 }

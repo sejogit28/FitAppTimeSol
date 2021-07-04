@@ -20,6 +20,8 @@ namespace FitAppModels.BaseModels
         public bool EachSide { get; set; }
         [MaxLength(75)]
         public string VideoUrl { get; set; }
+        //ExeType == List that wil be made in the front end
+        public string LibExeType { get; set; }
         public string FitAppUserId { get; set; }
         public string FitAppUserFirstName { get; set; }
         public FitAppUser FitAppUser { get; set; }

@@ -4,14 +4,16 @@ using FitAppDataStoreEF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FitAppDataStoreEF.Migrations
 {
     [DbContext(typeof(FitAppDbContext))]
-    partial class FitAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210704143614_changedRoleNamesToBetterFitWithBackend")]
+    partial class changedRoleNamesToBetterFitWithBackend
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -377,26 +379,6 @@ namespace FitAppDataStoreEF.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("Set11Values")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Set12Values")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Set13Values")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Set14Values")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Set15Values")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
                     b.Property<string>("Set1Values")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -469,57 +451,43 @@ namespace FitAppDataStoreEF.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "598e31c3-c7c8-4971-b402-19706b3192a4",
-                            ConcurrencyStamp = "1907d258-f203-4216-b2aa-112b53d26057",
+                            Id = "8f79a877-75a8-405b-9e24-94acb349f89e",
+                            ConcurrencyStamp = "3e6c01d1-30b2-4038-8849-9ce6b46c343d",
                             Name = "Athlete",
                             NormalizedName = "ATHLETE"
                         },
                         new
                         {
-                            Id = "26f89a5c-65a4-4120-9ba3-04a41e983e09",
-                            ConcurrencyStamp = "05ded6f5-9022-4a7d-a193-df36e5cebcb3",
+                            Id = "840de69a-5818-4bfb-a6b0-1eeb1992599c",
+                            ConcurrencyStamp = "66984ae4-9494-4a16-9ae9-1afae848325f",
                             Name = "Coach",
                             NormalizedName = "COACH"
                         },
                         new
                         {
-                            Id = "9c569e6d-9ecf-4185-b8d0-f1a64e01ee6f",
-                            ConcurrencyStamp = "d77253d4-7e95-4fe2-a58f-d9f4ed427479",
-                            Name = "Level 1 Organization",
-                            NormalizedName = "LEVEL 1 ORGANIZATION"
+                            Id = "3933e396-bc98-4176-88da-9cdc0e9f0a24",
+                            ConcurrencyStamp = "5aa16087-e195-43c3-a566-68f2dd4ff5c6",
+                            Name = "Level 1 Small Organization",
+                            NormalizedName = "LEVEL 1 SMALL ORGANIZATION"
                         },
                         new
                         {
-                            Id = "3def6517-1968-4fe2-bbd4-b48556aa8346",
-                            ConcurrencyStamp = "d7977576-cb9a-4b3f-8bc1-eee2471afa54",
-                            Name = "Level 2 Organization",
-                            NormalizedName = "LEVEL 2 ORGANIZATION"
+                            Id = "343dc2d1-c61a-4e62-a1b4-cdab49a6942e",
+                            ConcurrencyStamp = "1d5cf765-79d0-4016-b8e8-1dce92fb1560",
+                            Name = "Level 2 Medium Organization",
+                            NormalizedName = "LEVEL 2 MEDIUM ORGANIZATION"
                         },
                         new
                         {
-                            Id = "e23c4c8a-3f68-4dda-8c0e-1f178528bdd4",
-                            ConcurrencyStamp = "c19df55d-86ee-4756-98cc-81cc8f75cf70",
+                            Id = "61eab27a-97f4-405a-b804-a67be1774bcc",
+                            ConcurrencyStamp = "e40c47da-6f40-4803-9cd7-9eacc7ed41a8",
                             Name = "Level 3 Organization",
                             NormalizedName = "LEVEL 3 LARGE ORGANIZATION"
                         },
                         new
                         {
-                            Id = "d725b8c6-f3a1-4a4c-97dd-a277864a3d0a",
-                            ConcurrencyStamp = "af3a22eb-298c-4b31-a932-f48462a61759",
-                            Name = "Level 4 Organization",
-                            NormalizedName = "LEVEL 4 ORGANIZATION"
-                        },
-                        new
-                        {
-                            Id = "4312e2f7-91c8-47bd-ba9c-5855fe2bc294",
-                            ConcurrencyStamp = "666c6b3c-c078-4916-b094-981a11decc27",
-                            Name = "Level 5 Organization",
-                            NormalizedName = "LEVEL 5 ORGANIZATION"
-                        },
-                        new
-                        {
-                            Id = "29312808-d130-4582-8837-bccb6cb1186f",
-                            ConcurrencyStamp = "fd32d02f-1524-4782-942c-2712881a7c77",
+                            Id = "931cf437-9a91-4d4d-ba65-f6bb94dd0dad",
+                            ConcurrencyStamp = "cfe9e801-9daa-49e0-a5e3-3f7ca2ad8ea5",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });

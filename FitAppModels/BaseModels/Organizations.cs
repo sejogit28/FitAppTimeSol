@@ -13,9 +13,21 @@ namespace FitAppModels.BaseModels
         [Key]
         public int OrganizationId { get; set; }
         [Required]
+        [MaxLength(100)]
         public string OrganizationName { get; set; }
+
+        [Required]
+        public int OrganizationLevel { get; set; }
+
         [Required]
         public DateTime DateCreated { get; set; }
+        public string FitAppUserId { get; set; }
+        public string FitAppUserFirstName { get; set; }
+        public FitAppUser FitAppUser { get; set; }
         public IList<OrganizationFitAppUsers> OrganizationFitAppUsers { get; set; }
+        public IList<OrganizationExeWorkouts> OrganizationExeWorkouts { get; set; }
+        public IList<OrganizationExePrograms> OrganizationExePrograms { get; set; }
+
+
     }
 }
