@@ -16,6 +16,7 @@ namespace FitAppModels.BaseModels
         [MaxLength(100)]
         public string OrganizationName { get; set; }
 
+        //Consult role configuration file to understand relevance
         [Required]
         public int OrganizationLevel { get; set; }
 

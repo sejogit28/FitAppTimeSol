@@ -9,6 +9,7 @@ namespace FitAppModels.MTMModels
 {
     public class OrganizationFitAppUsers
     {
+        //Controls athlete and coach limits
         public int OrganizationsOrganizationId { get; set; }
         public Organizations Organizations { get; set; }
 

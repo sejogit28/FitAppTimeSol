@@ -9,6 +9,7 @@ namespace FitAppModels.MTMModels
 {
     public class OrganizationExeWorkouts
     {
+        //Allows coaches to move their workouts from org to org
         public int OrganizationsOrganizationId { get; set; }
         public Organizations Organizations { get; set; }
 

@@ -1,6 +1,7 @@
 ﻿using FitAppDataStoreEF;
 using FitAppModels;
 using FitAppModels.BaseModels;
+using FitAppModels.ExeProgramViewModels;
 using FitAppModels.MTMModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -19,12 +20,13 @@ namespace FitAppTimeApi.Controllers
     {
         private readonly FitAppDbContext _datFitBase;
         private readonly UserManager<FitAppUser> _userManager;
+        
 
         public ExeProgramController(FitAppDbContext fitDB, UserManager<FitAppUser> userManager)
         {
             _datFitBase = fitDB;
             _userManager = userManager;
-
+            
         }
 
         [HttpGet("exeprogramlist")]
@@ -129,10 +131,10 @@ namespace FitAppTimeApi.Controllers
         }
 
         [HttpPost("addworkouttoprogram/{programId:int}/{workoutId:int}")]
-        public async Task<IActionResult> addWorkoutToProgram(int programId, int workoutId)
+        public async Task<IActionResult> addWorkoutToProgram([FromBody] AddWorkoutToProgram addWorkoutToProgram)
         {
-            var currentProgram = await _datFitBase.ExeProgram.FindAsync(programId);
-            var currentWorkout = await _datFitBase.ExeWorkout.FindAsync(workoutId);
+            var currentProgram = await _datFitBase.ExeProgram.FindAsync(addWorkoutToProgram.ExeProgramId);
+            var currentWorkout = await _datFitBase.ExeWorkout.FindAsync(addWorkoutToProgram.ExeWorkoutId);
 
             if (currentProgram == null)
             {
@@ -152,7 +154,8 @@ namespace FitAppTimeApi.Controllers
                 });
             }
 
-            var programCheck = await _datFitBase.ExeProgramWorkouts.FindAsync(currentProgram.ExeProgramId, currentWorkout.ExeWorkoutId);
+            var programCheck = await _datFitBase.ExeProgramWorkouts
+                .FindAsync(currentProgram.ExeProgramId, currentWorkout.ExeWorkoutId);
             if (programCheck == null)
             {
                 var newExeProgramWorkout = new ExeProgramWorkouts
@@ -165,7 +168,8 @@ namespace FitAppTimeApi.Controllers
                 return Ok(new OperationResponse
                 {
                     OperationSuccessful = true,
-                    OperationMessage = $"Success!! {currentWorkout.ExeWorkoutTitle} has been saved to {currentProgram.ExeProgramTitle}"
+                    OperationMessage = $"Success!! {currentWorkout.ExeWorkoutTitle} has been saved" +
+                    $" to {currentProgram.ExeProgramTitle}"
                 });
             }
 
@@ -204,13 +208,15 @@ namespace FitAppTimeApi.Controllers
                 });
             }
 
-            var currentExeProgramWorkout = await _datFitBase.ExeProgramWorkouts.FindAsync(currentProgram.ExeProgramId, currentWorkout.ExeWorkoutId);
+            var currentExeProgramWorkout = await _datFitBase.ExeProgramWorkouts
+                .FindAsync(currentProgram.ExeProgramId, currentWorkout.ExeWorkoutId);
             if (currentExeProgramWorkout == null)
             {
                 return BadRequest(new OperationResponse
                 {
                     OperationSuccessful = false,
-                    OperationMessage = "The requested workout you tried to remove from the requested program is not currently in that program"
+                    OperationMessage = "The requested workout you tried to remove from the requested " +
+                    "program is not currently in that program"
                 });
             }
             else
@@ -229,10 +235,11 @@ namespace FitAppTimeApi.Controllers
         [HttpPost("addathletetoprogram/{programId:int}/{userId}")]
         //If an athlete is added to a program it allows them to see the programs workouts,
         //    if a coach is with a program it's cause they wrote it(assign athlete to calendar...)
-        public async Task<IActionResult> addUserToProgram(int programId, string userId)
+        public async Task<IActionResult> addUserToProgram([FromBody] AddAthleteToProgram addAthleteToProgram)
         {
-            var currentProgram = await _datFitBase.ExeProgram.FindAsync(programId);
-            var currentUser = await _userManager.FindByIdAsync(userId);
+            var currentProgram = await _datFitBase.ExeProgram.FindAsync(addAthleteToProgram.ExeProgramId);
+            var currentCoach = await _userManager.FindByIdAsync(addAthleteToProgram.CoachId);
+            var currentAthlete = await _userManager.FindByIdAsync(addAthleteToProgram.AthleteId);
             if (currentProgram == null)
             {
                 return BadRequest(new OperationResponse
@@ -242,21 +249,42 @@ namespace FitAppTimeApi.Controllers
                 });
             }
 
-            if (currentUser == null)
+            if (currentAthlete == null)
             {
                 return BadRequest(new OperationResponse
                 {
                     OperationSuccessful = false,
-                    OperationMessage = "Operation has been cancelled..the user could not be found"
+                    OperationMessage = "Operation has been cancelled..the athlete could not be found"
                 });
             }
 
-            var programCheck = await _datFitBase.FitAppUserExePrograms.FindAsync(currentProgram.ExeProgramId, currentUser.Id);
+            if (currentCoach == null)
+            {
+                return BadRequest(new OperationResponse
+                {
+                    OperationSuccessful = false,
+                    OperationMessage = "Operation has been cancelled..the coach could not be found"
+                });
+            }
+
+            var athleteCheck = await _userManager.IsInRoleAsync(currentAthlete, "Athlete");
+            if(athleteCheck == false) 
+            {
+                return BadRequest(new OperationResponse
+                {
+                    OperationSuccessful = false,
+                    OperationMessage = "Operation has been cancelled...the user you attempted to add to the " +
+                    "program is a coach. Coaches can't be added to programs"
+                });
+            }
+
+            var programCheck = await _datFitBase.FitAppUserExePrograms
+                .FindAsync(currentProgram.ExeProgramId, currentAthlete.Id);
             if (programCheck == null)
             {
                 var newExeProgramUser = new FitAppUserExePrograms
                 {
-                    FitAppUserId = currentUser.Id,
+                    FitAppUserId = currentAthlete.Id,
                     ExeProgramExeProgramId = currentProgram.ExeProgramId
                 };
 
@@ -265,7 +293,8 @@ namespace FitAppTimeApi.Controllers
                 return Ok(new OperationResponse
                 {
                     OperationSuccessful = true,
-                    OperationMessage = $"Success!! {currentUser.FirstName} has been added to {currentProgram.ExeProgramTitle}!"
+                    OperationMessage = $"Success!! The athlete {currentAthlete.FirstName} has been added to " +
+                    $"{currentProgram.ExeProgramTitle}!"
                 });
             }
             else
@@ -282,7 +311,7 @@ namespace FitAppTimeApi.Controllers
         public async Task<IActionResult> removeUserFromProgram(int programId, string userId)
         {
             var currentProgram = await _datFitBase.ExeProgram.FindAsync(programId);
-            var currentUser = await _userManager.FindByIdAsync(userId);
+            var currentAthlete = await _userManager.FindByIdAsync(userId);
             if (currentProgram == null)
             {
                 return BadRequest(new OperationResponse
@@ -292,7 +321,7 @@ namespace FitAppTimeApi.Controllers
                 });
             }
 
-            if (currentUser == null)
+            if (currentAthlete == null)
             {
                 return BadRequest(new OperationResponse
                 {
@@ -301,13 +330,15 @@ namespace FitAppTimeApi.Controllers
                 });
             }
 
-            var currentExeProgramUser = await _datFitBase.FitAppUserExePrograms.FindAsync(currentProgram.ExeProgramId, currentUser.Id);
+            var currentExeProgramUser = await _datFitBase.FitAppUserExePrograms
+                .FindAsync(currentProgram.ExeProgramId, currentAthlete.Id);
             if (currentExeProgramUser == null)
             {
                 return BadRequest(new OperationResponse
                 {
                     OperationSuccessful = false,
-                    OperationMessage = "The requested user you tried to remove from the requested program is not currently in that program"
+                    OperationMessage = "The requested user you tried to remove from the requested program " +
+                    "is not currently in that program"
                 });
             }
             else
@@ -317,7 +348,7 @@ namespace FitAppTimeApi.Controllers
                 return Ok(new OperationResponse
                 {
                     OperationSuccessful = true,
-                    OperationMessage = "User removed successfully"
+                    OperationMessage = "Athlete removed from program successfully"
                 });
             }
 
