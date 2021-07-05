@@ -463,6 +463,7 @@ namespace FitAppTimeApi.Controllers
             var currentCoachRoles = await _userManager.GetRolesAsync(currentCoach);
 
             if (! currentCoachRoles.Intersect(GetListofCoachRoles()).Any())
+            //Could also do _userManager.IsInRole(currentCoach ,"Athlete"
             {
                 return BadRequest(new OperationResponse
                 {
@@ -490,17 +491,29 @@ namespace FitAppTimeApi.Controllers
                 });
             }
 
+            var coachOrgCheck = await _datFitBase.OrganizationFitAppUsers
+                .FindAsync(currentOrg.OrganizationId, currentCoach.Id);
 
-            var orgCheck = await _datFitBase.OrganizationFitAppUsers
-                .FindAsync(currentOrg.OrganizationId, currentAthlete.Id);
-            if (orgCheck == null)
+            if (coachOrgCheck == null)
             {
-                var newOrganizationUser = new OrganizationFitAppUsers
+                return BadRequest(new OperationResponse
+                {
+                    OperationSuccessful = false,
+                    OperationMessage = "Operation has been cancelled...this coach is not a part of this " +
+                    "organization"
+                });
+            }
+
+            var athleteOrgCheck = await _datFitBase.OrganizationFitAppUsers
+                .FindAsync(currentOrg.OrganizationId, currentAthlete.Id);
+            if (athleteOrgCheck == null)
+            {
+                var newOrganizationAthlete = new OrganizationFitAppUsers
                 {
                     OrganizationsOrganizationId = currentOrg.OrganizationId,
                     FitAppUserId = currentAthlete.Id
                 };
-                await _datFitBase.OrganizationFitAppUsers.AddAsync(newOrganizationUser);
+                await _datFitBase.OrganizationFitAppUsers.AddAsync(newOrganizationAthlete);
                 await _datFitBase.SaveChangesAsync();
                 return Ok(new OperationResponse
                 {
@@ -608,6 +621,194 @@ namespace FitAppTimeApi.Controllers
                     OperationMessage = $"Success...the athlete {currentAthlete.FirstName} has been successfully " +
                     $"removed from {currentOrg.OrganizationName}"
                 });
+            }
+
+        }
+
+        [HttpPost("addprogramtoorganization/{coachId}/{orgId:int}/")]
+        public async Task<IActionResult> addProgramToOrganization([FromBody] AddProgramToOrganization addProgramToOrganization, string coachId, int orgId)
+        {
+            var currentProgram = await _datFitBase.ExeProgram.FindAsync(addProgramToOrganization.ProgramId);
+            var currentCoach = await _userManager.FindByIdAsync(addProgramToOrganization.CoachId);
+            var currentOrg = await _datFitBase.Organizations.FindAsync(addProgramToOrganization.OrgId);
+
+            if(orgId != addProgramToOrganization.OrgId) 
+            {
+                return BadRequest(new OperationResponse
+                {
+                    OperationSuccessful = false,
+                    OperationMessage = "Operation has been cancelled...something went wrong"
+                });
+            }
+
+            if (coachId != addProgramToOrganization.CoachId)
+            {
+                return BadRequest(new OperationResponse
+                {
+                    OperationSuccessful = false,
+                    OperationMessage = "Operation has been cancelled...something went wrong"
+                });
+            }
+            if (currentProgram == null)
+            {
+                return BadRequest(new OperationResponse
+                {
+                    OperationSuccessful = false,
+                    OperationMessage = "Operation has been cancelled..the program could not be found"
+                });
+            }
+
+            if (currentOrg == null)
+            {
+                return BadRequest(new OperationResponse
+                {
+                    OperationSuccessful = false,
+                    OperationMessage = "Operation has been cancelled...the organization could not be found"
+                });
+            }
+
+            if (currentCoach == null)
+            {
+                return BadRequest(new OperationResponse
+                {
+                    OperationSuccessful = false,
+                    OperationMessage = "Operation has been cancelled...the coach could not be found"
+                });
+            }
+
+            if (await _userManager.IsInRoleAsync(currentCoach, "Athlete") == true)
+            {
+                return BadRequest(new OperationResponse
+                {
+                    OperationSuccessful = false,
+                    OperationMessage = "Operation has been cancelled...the user trying to add this " +
+                    "program is not a coach"
+                });
+            }
+
+            var currentOrgCoachCheck = await _datFitBase.OrganizationFitAppUsers
+                .FindAsync(currentOrg.OrganizationId, currentCoach.Id);
+            if (currentOrgCoachCheck == null)
+            {
+                return BadRequest(new OperationResponse
+                {
+                    OperationSuccessful = false,
+                    OperationMessage = "The specified coach is not apart of this organization and cannot add" +
+                    " this program to it"
+                });
+            }
+
+            var currentOrgProgramCheck = await _datFitBase.OrganizationExePrograms
+                .FindAsync(currentOrg.OrganizationId, currentProgram.ExeProgramId);
+            if(currentOrgProgramCheck != null) 
+            {
+                return BadRequest(new OperationResponse
+                {
+                    OperationSuccessful = false,
+                    OperationMessage = "The program you tried to add is already in this organization"
+                });
+            }
+            else 
+            {
+                var newOrgExeProgram = new OrganizationExePrograms
+                {
+                    OrganizationsOrganizationId = currentOrg.OrganizationId,
+                    ExeProgramExeProgramId = currentProgram.ExeProgramId
+                };
+
+                await _datFitBase.OrganizationExePrograms.AddAsync(newOrgExeProgram);
+                await _datFitBase.SaveChangesAsync();
+                return Ok(new OperationResponse
+                {
+                    OperationSuccessful = true,
+                    OperationMessage = $"Success!! {currentProgram.ExeProgramTitle} has been saved" +
+                    $" to {currentOrg.OrganizationName}"
+                });
+                
+            }
+            
+        }
+
+        [HttpDelete("removeprogramtoorganization/{coachId}/{orgId:int}/{programId:int}")]
+        public async Task<IActionResult> removeProgramFoOrganization(string coachId, int orgId, int programId)
+        {
+            var currentProgram = await _datFitBase.ExeProgram.FindAsync(programId);
+            var currentCoach = await _userManager.FindByIdAsync(coachId);
+            var currentOrg = await _datFitBase.Organizations.FindAsync(orgId);
+
+            if (currentProgram == null)
+            {
+                return BadRequest(new OperationResponse
+                {
+                    OperationSuccessful = false,
+                    OperationMessage = "Operation has been cancelled..the program could not be found"
+                });
+            }
+
+            if (currentOrg == null)
+            {
+                return BadRequest(new OperationResponse
+                {
+                    OperationSuccessful = false,
+                    OperationMessage = "Operation has been cancelled...the organization could not be found"
+                });
+            }
+
+            if (currentCoach == null)
+            {
+                return BadRequest(new OperationResponse
+                {
+                    OperationSuccessful = false,
+                    OperationMessage = "Operation has been cancelled...the coach could not be found"
+                });
+            }
+
+            var currentOrgCoachCheck = await _datFitBase.OrganizationFitAppUsers
+                .FindAsync(currentOrg.OrganizationId, currentCoach.Id);
+            if (currentOrgCoachCheck == null)
+            {
+                return BadRequest(new OperationResponse
+                {
+                    OperationSuccessful = false,
+                    OperationMessage = "The specified coach is not apart of this organization and cannot add" +
+                    " this program to it"
+                });
+            }
+
+            if (await _userManager.IsInRoleAsync(currentCoach, "Athlete") == true)
+            {
+                return BadRequest(new OperationResponse
+                {
+                    OperationSuccessful = false,
+                    OperationMessage = "Operation has been cancelled...the user trying to add this " +
+                    "program is not a coach"
+                });
+            }
+
+            var currentOrgProgramCheck = await _datFitBase.OrganizationExePrograms
+                .FindAsync(currentOrg.OrganizationId, currentProgram.ExeProgramId);
+
+            if (currentOrgProgramCheck == null)
+            {
+                return BadRequest(new OperationResponse
+                {
+                    OperationSuccessful = false,
+                    OperationMessage = "The program you tried to remove isn't in this organization"
+                });
+            }
+            else
+            {
+
+
+                _datFitBase.OrganizationExePrograms.Remove(currentOrgProgramCheck);
+                await _datFitBase.SaveChangesAsync();
+                return Ok(new OperationResponse
+                {
+                    OperationSuccessful = true,
+                    OperationMessage = $"Success!! {currentProgram.ExeProgramTitle} has been removed" +
+                    $" from {currentOrg.OrganizationName}"
+                });
+
             }
 
         }

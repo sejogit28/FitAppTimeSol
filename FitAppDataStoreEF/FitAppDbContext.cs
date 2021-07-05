@@ -26,7 +26,7 @@ namespace FitAppDataStoreEF
 
         //MtM Tables
         public DbSet<OrganizationFitAppUsers> OrganizationFitAppUsers { get; set; }
-        public DbSet<OrganizationExeWorkouts> OrganizationExePrograms { get; set; }
+        public DbSet<OrganizationExePrograms> OrganizationExePrograms { get; set; }
         public DbSet<OrganizationExeWorkouts> OrganizationExeWorkouts { get; set; }
         public DbSet<FitAppUserExePrograms> FitAppUserExePrograms { get;set; }
         public DbSet<ExeProgramWorkouts> ExeProgramWorkouts { get; set; }

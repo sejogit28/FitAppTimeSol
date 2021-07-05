@@ -12,5 +12,6 @@ namespace FitAppModels.ExeProgramViewModels
         public int ExeWorkoutId { get; set; }
         public int ExeProgramId { get; set; }
         public string CoachId { get; set; }
+        public int OrgId { get; set; }
     }
 }
