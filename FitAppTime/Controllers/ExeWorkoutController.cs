@@ -43,6 +43,20 @@ namespace FitAppTimeApi.Controllers
             return Ok(exeWorkoutsByUser);
         }
 
+        [HttpGet("exeworkoutsbyorganization/{orgId:int}")]
+        public async Task<IActionResult> GetExeWorkoutsByOrg(string fitAppUserId, int orgId)
+        {
+
+            var exeWorkoutsByUser = await _datFitBase.ExeWorkout.Where(t => t.FitAppUserId == fitAppUserId).ToListAsync();
+            //var expensesByMonthList = await _datExpBase.Expenses.Where(t => t.MonthYear == targetMonth).ToListAsync();
+            if (exeWorkoutsByUser == null || exeWorkoutsByUser.Count == 0)
+            {
+                exeWorkoutsByUser = new List<ExeWorkout>();
+                return Ok(exeWorkoutsByUser);
+            }
+            return Ok(exeWorkoutsByUser);
+        }
+
         [HttpGet("singleexeworkout/{singleExeWorkoutId:int}")]
         public async Task<IActionResult> GetExeWokout(int singleExeWorkoutId)
         {

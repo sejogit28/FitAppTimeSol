@@ -822,7 +822,7 @@ namespace FitAppTimeApi.Controllers
 
         }
 
-        [HttpPost("addworkouttoorganization/{coachId}/{orgId:int}/")]
+        [HttpPost("addlooseworkouttoorganization/{coachId}/{orgId:int}/")]
         public async Task<IActionResult> addLooseWorkoutToOrganization([FromBody] AddLooseWorkoutToOrganization addLooseWorkoutToOrganization, string coachId, int orgId)
         {
             var currentWorkout = await _datFitBase.ExeWorkout.FindAsync(addLooseWorkoutToOrganization.WorkoutId);
@@ -927,7 +927,7 @@ namespace FitAppTimeApi.Controllers
 
         }
 
-        [HttpDelete("removeworkoutfromorganization/{coachId}/{orgId:int}/{workoutId:int}")]
+        [HttpDelete("removelooseworkoutfromorganization/{coachId}/{orgId:int}/{workoutId:int}")]
         public async Task<IActionResult> removeWorkoutFromOrganization(string coachId, int orgId, int workoutId)
         {
             var currentWorkout = await _datFitBase.ExeWorkout.FindAsync(workoutId);

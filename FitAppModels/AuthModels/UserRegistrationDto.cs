@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -34,5 +35,8 @@ namespace FitAppModels
 
         public bool IsCoach { get; set; }
         public bool IsAthlete { get; set; }
+
+        public string ImageName { get; set; }
+        public IFormFile UserPhoto { get; set; }
     }
 }
